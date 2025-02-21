@@ -6,12 +6,12 @@ import Link from "next/link"
 const Navbar = async () => {
     const session = await auth()
     return(
-        <header className="px-5 py-3">
-            <nav className="flex justfiy-between items-center">
+        <header className="mx-5 mt-2">
+            <nav className="flex justify-between items-center">
                 <Link href="/">
                     <Image src="/Roselia_logo.jpg" height={80} width={183} alt="Rose-logo" />
                 </Link>
-                <div className="flex items-center gap-5 text-black">
+                <div className="flex gap-5 text-black">
                 {
                     session && session?.user ? 
                     <>
