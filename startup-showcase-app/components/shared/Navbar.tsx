@@ -7,11 +7,11 @@ const Navbar = async () => {
     const session = await auth()
     return(
         <header className="mx-5 mt-2">
-            <nav className="flex justify-between items-center">
+            <nav className="flex-between">
                 <Link href="/">
                     <Image src="/Roselia_logo.jpg" height={80} width={183} alt="Rose-logo" />
                 </Link>
-                <div className="flex gap-5 text-black">
+                <div className="md:flex gap-5 text-black">
                 {
                     session && session?.user ? 
                     <>
