@@ -9,10 +9,11 @@ export default async function Home({searchParams}: {searchParams: querySearchPar
     title: "kira-kira",
     img: "https://static.wikia.nocookie.net/bandori/images/1/16/Popipa_2023.png/revision/latest/scale-to-width-down/1000?cb=20231220030059",
     desc: "kira-kira doki doki, we are Poppin's Party", 
-    author: {_id: "kira01", name: "kasumi", avatar:"https://static.wikia.nocookie.net/bandori/images/1/12/Kasumi_%28icon%29.png/revision/latest/scale-to-width-down/50?cb=20230822110604" }, 
+    author: {_id: "kira01", name: "kasumi", avatar:"https://static.wikia.nocookie.net/bandori/images/1/12/Kasumi_%28icon%29.png/revision/latest/scale-to-width-down/50?cb=20230822110604", bio:"" }, 
     _createdAt: String(new Date),
     views:"1M+",
-    category: "Star Computing"
+    category: "Star Computing",
+    pitch: ""
   }
   ]
   return (
