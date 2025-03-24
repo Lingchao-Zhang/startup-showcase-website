@@ -5,11 +5,11 @@ import Image from "next/image"
 import { Eye } from "lucide-react"
 
 const StartupCard = ({startupInfo}: {startupInfo: startupInfoType}) => {
-    const {_id,title,img,desc, author: {_id: authorId, name: authorName, avatar }, _createdAt, views, category} = startupInfo
+    const {_id, slug:{current},title,img,desc, author: {_id: authorId, username, avatar}, createdAt, views, category} = startupInfo
     return(
         <section className="startup-card">
             <div>
-                <Link href={`/startupDetail/${_id}`}>
+                <Link href={`/startupDetail/${(_id)}`}>
                  <span className="text-24-black">{title}</span>
                 </Link>
             </div>
@@ -21,7 +21,7 @@ const StartupCard = ({startupInfo}: {startupInfo: startupInfoType}) => {
                     height={50}
                     alt="avatar"
                     />
-                    <span className="text-20-medium">{authorName}</span>
+                    <span className="text-20-medium">{username}</span>
                 </Link>
                 <div className="flex gap-1">
                     <Eye />
@@ -29,7 +29,7 @@ const StartupCard = ({startupInfo}: {startupInfo: startupInfoType}) => {
                 </div>
             </div>
             <span className="startup-card_date">
-                 {formatDate(_createdAt)}
+                 {formatDate(String(createdAt))}
             </span>
             <p className="startup-card_desc py-5">
                  {desc}

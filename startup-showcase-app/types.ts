@@ -1,19 +1,24 @@
 export type querySearchParamsType = Promise<{query?: string}>
 export type startupInfoType = {
-    _id: string, 
+    _id: string,
+    slug: slugType, 
     title: string,
     img: string,
     desc: string,
     author: authorType,
-    _createdAt: string,
+    createdAt: Date,
     views: string,
     category: string,
     pitch: string
 }
 export type authorType = {
     _id: string,
-    name: string,
+    id: string,
+    username: string,
     avatar: string,
     bio: string
 }
 
+export type slugType = {
+    current: string,
+}
