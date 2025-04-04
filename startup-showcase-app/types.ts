@@ -1,4 +1,5 @@
 export type querySearchParamsType = Promise<{query?: string}>
+export type queryStartupDetailType = Promise<{_id: string}>
 export type startupInfoType = {
     _id: string,
     slug: slugType, 

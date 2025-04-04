@@ -44,7 +44,7 @@ const StartupCard = ({startupInfo}: {startupInfo: startupInfoType}) => {
                 />
             </div>
             <div className="pt-6">
-                <Link href={`/?query=${category}`} className="startup-card_btn">{category}</Link>
+                <Link href={`/?query=${category}`} className="category-tag">{category}</Link>
             </div>
         </section>
     )
