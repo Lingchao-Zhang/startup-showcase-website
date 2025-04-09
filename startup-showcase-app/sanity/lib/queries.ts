@@ -1,4 +1,6 @@
 import { defineQuery } from 'next-sanity'
+
+// get all startups
 export const startups_query = defineQuery(
     `*[_type == "startup" && defined(slug.current) && !defined($search) || title match $search || author->username match $search || category match $search]{
      _id, 
@@ -13,7 +15,8 @@ export const startups_query = defineQuery(
     } | order(createdAt desc)
     `
 )
-
+ 
+// get the startup via the given id
 export const startup_query_by_id = defineQuery(
     `*[_type == "startup" && defined(slug.current) && _id match $startupId][0]{
      _id, 
@@ -28,9 +31,22 @@ export const startup_query_by_id = defineQuery(
     `
 )
 
+// get the view number of the startup via the given id
 export const startup_views_query_by_id = defineQuery(
     `*[_type == "startup" && defined(slug.current) && _id match $startupId][0]{
      views
+    }
+    `
+)
+
+// get the author info via the given id
+export const author_info_query_by_id = defineQuery(
+    `*[_type == "author" && id match $id][0]{
+     _id,
+     id,
+     username,
+     avatar,
+     bio
     }
     `
 )
