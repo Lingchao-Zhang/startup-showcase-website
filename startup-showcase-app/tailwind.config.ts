@@ -20,7 +20,7 @@ const config: Config = {
     				foreground: 'hsl(var(--primary-foreground))'
     			},
     			secondary: {
-    				DEFAULT: 'hsl(var(--secondary))',
+    				DEFAULT: '#FF3377',
     				foreground: 'hsl(var(--secondary-foreground))'
     			},
     			black: {

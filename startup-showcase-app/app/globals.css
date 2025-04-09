@@ -98,11 +98,11 @@
     }
 
     .r-container {
-        @apply w-full bg-primary min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6;
+        @apply w-full bg-primary pattern flex justify-center items-center flex-col py-10 px-6 md:min-h-[530px];
     }
 
     .tag {
-        @apply bg-secondary px-6 py-3 font-work-sans font-bold rounded-sm uppercase relative tag-tri;
+        @apply bg-secondary text-white px-6 py-3 font-work-sans font-bold rounded-sm uppercase relative tag-tri;
     }
 
     .heading {
@@ -118,7 +118,7 @@
     }
 
     .card_grid {
-        @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
+        @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5 pt-10;
     }
 
     .card_grid-sm {
@@ -237,11 +237,19 @@
 
     /* view */
     .view-container {
-        @apply flex justify-end items-center mt-5 fixed bottom-3 right-3;
+        @apply flex justify-end fixed bottom-3 right-3;
     }
 
     .view-text {
         @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-lg capitalize;
+    }
+    
+    .view-ping {
+        @apply h-4 w-4 absolute animate-ping rounded-full bg-secondary right-2 bottom-7
+    }
+
+    .view-fixed-ping {
+        @apply h-4 w-4 relative rounded-full bg-secondary right-2 bottom-1
     }
 
     .category-tag {
