@@ -9,17 +9,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub],
   callbacks: {
     async signIn({ user: {name, image}, profile}) {
-      const id = profile?.id
+      const profileId = profile?.id
       const author = await client
                            .withConfig({useCdn: false})
-                           .fetch(author_info_query_by_id, {id})
+                           .fetch(author_info_query_by_id, {profileId})
       if(!author){
         await clientWrite
               .withConfig({useCdn: false})
               .create({
                 _type: "author",
                 username: name,
-                id,
+                id: profileId,
                 avatar: image,
                 bio: ""
               })

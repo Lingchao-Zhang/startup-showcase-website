@@ -41,7 +41,7 @@ export const startup_views_query_by_id = defineQuery(
 
 // get the author info via the given id
 export const author_info_query_by_id = defineQuery(
-    `*[_type == "author" && id match $id][0]{
+    `*[_type == "author" && id == $profileId][0]{
      _id,
      id,
      username,
