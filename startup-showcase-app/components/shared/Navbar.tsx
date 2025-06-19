@@ -12,9 +12,12 @@ const Navbar = async () => {
                     <Image src="/Roselia_logo.jpg" height={80} width={183} alt="Rose-logo" />
                 </Link>
                 <div className="md:flex gap-5 text-black">
+                    {
+                        session?.user && <Link href="/startupCreate">Create</Link>
+                    }
                 {
                     session && session?.user ? 
-                    <>
+                    <div className="md:flex gap-5">
                         <span>{session?.user?.name}</span>
                         <form action={async () => {
                                 "use server"
@@ -23,7 +26,7 @@ const Navbar = async () => {
                             >
                             <button type="submit">Sign Out</button>
                         </form>
-                    </>
+                    </div>
                     : 
                     <form action={async () => {
                         "use server"

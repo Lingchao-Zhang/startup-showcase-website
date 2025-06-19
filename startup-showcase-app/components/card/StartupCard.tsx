@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Eye } from "lucide-react"
 
 const StartupCard = ({startupInfo}: {startupInfo: startupInfoType}) => {
-    const {_id, slug:{current},title,img,desc, author: {_id: authorId, username, avatar}, createdAt, views, category} = startupInfo
+    const {_id,title,img,desc, author: {_id: authorId, username, avatar}, createdAt, views, category} = startupInfo
     return(
         <section className="startup-card">
             <div>
