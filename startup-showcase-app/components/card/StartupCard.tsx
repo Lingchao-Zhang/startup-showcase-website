@@ -20,6 +20,7 @@ const StartupCard = ({startupInfo}: {startupInfo: startupInfoType}) => {
                     width={50}
                     height={50}
                     alt="avatar"
+                    className="rounded-full"
                     />
                     <span className="text-20-medium">{username}</span>
                 </Link>

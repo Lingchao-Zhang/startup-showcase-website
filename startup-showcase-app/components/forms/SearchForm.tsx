@@ -9,7 +9,7 @@ const SearchForm = ({query}: {query?: string}) => {
         <input 
          className="search-input"
          name="query"
-         placeholder="Enter your startups here"
+         placeholder="Search your startups"
          defaultValue={query}
         />
         {

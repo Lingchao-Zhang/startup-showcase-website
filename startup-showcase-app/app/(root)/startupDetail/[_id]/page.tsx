@@ -51,6 +51,7 @@ const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
                         width={60}
                         height={60}
                         alt="avatar"
+                        className="rounded-full"
                         />
                         <span className="text-16-medium">{username}</span>
                     </Link>
