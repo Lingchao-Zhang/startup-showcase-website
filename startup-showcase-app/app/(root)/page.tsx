@@ -33,7 +33,7 @@ export default async function Home({searchParams}: {searchParams: querySearchPar
       <div className="card_grid">
         {
           startupResults.length > 0 &&
-          startupResults.map((startupDetail: startupInfoType) => <StartupCard key={startupDetail.slug.current} startupInfo={startupDetail}/>)
+          startupResults.map((startupDetail: startupInfoType) => <StartupCard key={startupDetail._id} startupInfo={startupDetail}/>)
         }
       </div>
      </section>
