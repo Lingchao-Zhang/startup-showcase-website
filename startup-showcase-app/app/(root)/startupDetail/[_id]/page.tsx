@@ -1,7 +1,7 @@
 import { formatDate } from "@/lib/utils"
 import { client } from "@/sanity/lib/client"
-import { startup_query_by_id } from "@/sanity/lib/queries"
-import { queryStartupDetailType } from "@/types"
+import { playlist_query_by_slug, startup_query_by_id } from "@/sanity/lib/queries"
+import { queryStartupDetailType, startupInfoType } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
 import markdownit from 'markdown-it'
@@ -9,13 +9,23 @@ import { notFound } from "next/navigation"
 import { Suspense } from 'react'
 import Views from "@/components/shared/Views"
 import ViewSkeleton from "@/components/shared/ViewSkeleton"
+import StartupCard from "@/components/card/StartupCard"
 
 export const experimental_ppr = true
 
 const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
     
     const startupId = (await params)._id
-    const startupInfo = await client.fetch(startup_query_by_id, {startupId})
+    const playlistSlug = "shiokado-tech"
+    /* 
+    fetching the startup is indepedent on fetching the startups playlist
+    use parallel fetching to save the loading time
+    */
+    const [startupInfo, {startups: featuredPlaylist}] = await Promise.all([
+        await client.fetch(startup_query_by_id, {startupId}),
+        await client.fetch(playlist_query_by_slug, {playlistSlug})
+    ])
+
     if(!startupInfo) return notFound()
     const {
         _id, 
@@ -67,7 +77,22 @@ const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
                     dangerouslySetInnerHTML={{__html: pitchContent}}
                    />
                 }
+                {
+                    featuredPlaylist.length > 0 && 
+                    <div className="mt-16">
+                        <h1 className="text-30-bold">Featured Playlist</h1>
+                        <div className="sm:card_grid max-sm:card_grid-sm">
+                            {
+                                featuredPlaylist.map((startup: startupInfoType) => 
+                                    <StartupCard key={startup._id} startupInfo={startup}/>
+                                )
+                            }
+                        </div>
+                    </div>
+                }
             </section>
+            
+                
             <Suspense fallback={<ViewSkeleton />}>
                 <Views startupId={_id} />
             </Suspense>

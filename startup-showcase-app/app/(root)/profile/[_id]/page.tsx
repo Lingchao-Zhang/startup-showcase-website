@@ -33,7 +33,7 @@ const userProfile = async ({params}: {params: queryUserProfileType}) => {
             }
             <div>
                <h1 className="text-30-bold">{session?.user?.id === id ? "Your" : "All"} Startups</h1>
-               <div className="card_grid">
+               <div className="card_grid-sm">
                 <Suspense fallback={<UserStartupsSkeleton />}>
                     <UserStartups authorId={authorId}/>
                 </Suspense>
