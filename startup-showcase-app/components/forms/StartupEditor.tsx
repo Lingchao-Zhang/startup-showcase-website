@@ -17,17 +17,26 @@ import { Button } from "@/components/ui/button"
 import { Send } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { useActionState, useState } from "react"
-import { createStartup } from "@/lib/action"
+import { updateStartup } from "@/lib/action"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
+import { prevStartupInfoType } from "@/types"
 
-const startupCreate = () => {
+const StartupEditor = ({prevStartupInfo}:{prevStartupInfo: prevStartupInfoType}) => {
+    const {startupId, title, img, desc, category, pitch} = prevStartupInfo
     const [errors, setErrors] = useState<Record<string, string>>({})
-    const [pitch, setPitch] = useState("")
+    const [newPitch, setNewPitch] = useState(pitch)
     const {toast} = useToast()
     const router = useRouter()
     const form = useForm<z.infer<typeof startupFormSchema>>({
-        resolver: zodResolver(startupFormSchema)
+        resolver: zodResolver(startupFormSchema),
+        defaultValues: {
+            title,
+            image: img,
+            description: desc,
+            category,
+            pitch
+        }
       })
     const handleFormSubmit = async (prevState: any, formInfo: FormData) => {
         try{
@@ -36,18 +45,18 @@ const startupCreate = () => {
                 "description": formInfo.get("description") as string,
                 "category": formInfo.get("category") as string,
                 "image": formInfo.get("image") as string,
-                "pitch": pitch             
+                "pitch": newPitch             
             }
             await startupFormSchema.parseAsync(formValues)
             
-            const newStartup = await createStartup(formInfo, pitch)
+            const updatedStartup = await updateStartup(startupId, formInfo, newPitch)
             toast({
                 title: "Submitted successfully",
-                description: "Your new startup has been created successfully"
+                description: "Your new startup has been updated successfully"
             })
             
-            router.push(`./startupDetail/${newStartup._id}?mode=view`)
-            return newStartup
+            router.push(`./${updatedStartup._id}?mode=view`)
+            return updatedStartup
         }catch(error){
             // If the form error is a validation error
             if(error instanceof z.ZodError){
@@ -70,7 +79,7 @@ const startupCreate = () => {
     return(
         <div>
             <section className="r-container !min-[250px]">
-                <h1 className="heading">Create your startup here!</h1>
+                <h1 className="heading">Update your startup here!</h1>
             </section>
             <Form {...form}>
                 <form action={formAction} className="startup-form">
@@ -134,20 +143,20 @@ const startupCreate = () => {
                             <FormLabel className="startup-form_label">Pitch</FormLabel>
                             <FormControl>
                                 <MDEditor
-                                    value={pitch}
-                                    onChange={e => setPitch(e as string)}
+                                    value={newPitch}
+                                    onChange={e => setNewPitch(e as string)}
                                 />                        
                             </FormControl>
                             {errors.pitch && <FormMessage className="startup-form_error">{errors.pitch}</FormMessage>}
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" disabled={isPending} className="startup-form_btn">{isPending ? "Submitting" : "Submit"}<Send/></Button>
+                    <Button type="submit" disabled={isPending} className="startup-form_btn">{isPending ? "Updating" : "Update"}<Send/></Button>
                 </form>
             </Form>
         </div>
-      
     )
 }
 
-export default startupCreate
+
+export default StartupEditor

@@ -1,31 +1,39 @@
 import { formatDate } from "@/lib/utils"
 import { client } from "@/sanity/lib/client"
-import { playlist_query_by_slug, startup_query_by_id } from "@/sanity/lib/queries"
-import { queryStartupDetailType, startupInfoType } from "@/types"
+import { author_info_query_by_id, playlist_query_by_slug, startup_query_by_id } from "@/sanity/lib/queries"
+import { modeSearchParamsType, queryStartupDetailType, startupInfoType } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
 import markdownit from 'markdown-it'
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { Suspense } from 'react'
 import Views from "@/components/shared/Views"
 import ViewSkeleton from "@/components/shared/ViewSkeleton"
 import StartupCard from "@/components/card/StartupCard"
+import { auth } from "@/auth"
+import StartupEditor from "@/components/forms/StartupEditor"
+import { Button } from "@/components/ui/button"
+import { PencilIcon } from "lucide-react"
 
 export const experimental_ppr = true
 
-const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
+const startupDetail = async ({params, searchParams}: {params: queryStartupDetailType, searchParams: modeSearchParamsType}) => {
     
     const startupId = (await params)._id
     const playlistSlug = "shiokado-tech"
+    const mode = (await searchParams).mode
+    
     /* 
     fetching the startup is indepedent on fetching the startups playlist
     use parallel fetching to save the loading time
     */
     const [startupInfo, {startups: featuredPlaylist}] = await Promise.all([
-        await client.fetch(startup_query_by_id, {startupId}),
+        await client.withConfig({useCdn: false}).fetch(startup_query_by_id, {startupId}),
         await client.fetch(playlist_query_by_slug, {playlistSlug})
     ])
-
+    const session = await auth()
+    const userId = session?.user?.id
+    const { _id: user_id } = await client.fetch(author_info_query_by_id, {profileId: userId})
     if(!startupInfo) return notFound()
     const {
         _id, 
@@ -36,10 +44,15 @@ const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
         createdAt,
         category,
         pitch } = startupInfo
-        
+    // verify whether the editor is the author or not
+    if(mode === "edit" && user_id !== authorId){
+            redirect(`./${startupId}?mode=view`)
+    }
     const md = markdownit()
     const pitchContent = md.render(pitch || "");
+    const prevStartup = {startupId, title, img, desc, category, pitch}
     return(
+        mode === "view" ? 
         <div>
             <section className="r-container !min-[250px]">
                 <h1 className="tag">{formatDate(createdAt)}</h1>
@@ -65,7 +78,7 @@ const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
                         />
                         <span className="text-16-medium">{username}</span>
                     </Link>
-                    <span className="category-tag">{category}</span>
+                    <span className="category-tag max-sm:text-center">{category}</span>
                 </div>
                 <h1 className="text-30-bold">Pitch Details</h1>
                 {
@@ -76,6 +89,12 @@ const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
                     <article 
                     dangerouslySetInnerHTML={{__html: pitchContent}}
                    />
+                }
+                {
+                    mode === "view" && user_id === authorId &&
+                    <Link href={`./${startupId}?mode=edit`}>
+                        <Button className="startup-form-edit_btn">Edit Startup<PencilIcon /></Button>
+                    </Link>
                 }
                 {
                     featuredPlaylist.length > 0 && 
@@ -97,6 +116,8 @@ const startupDetail = async ({params}: {params: queryStartupDetailType}) => {
                 <Views startupId={_id} />
             </Suspense>
         </div>
+        :
+        <StartupEditor prevStartupInfo={prevStartup} />
     )
 }
 
