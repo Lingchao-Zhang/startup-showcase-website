@@ -235,9 +235,13 @@
         @apply bg-primary border-[4px] border-black rounded-full p-5 min-h-[70px] w-full font-bold text-[18px] !important;
     }
 
+    .startup-form-edit_btn {
+        @apply bg-primary border-[4px] border-black rounded-full p-5 min-h-[70px] mt-8 mx-[25%] w-[50%] font-bold text-[18px] !important;
+    }
+
     /* view */
     .view-container {
-        @apply flex justify-end fixed bottom-3 right-3;
+        @apply flex justify-end fixed bottom-20 right-3;
     }
 
     .view-text {

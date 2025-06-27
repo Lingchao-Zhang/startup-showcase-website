@@ -9,7 +9,7 @@ const StartupCard = ({startupInfo}: {startupInfo: startupInfoType}) => {
     return(
         <section className="startup-card">
             <div>
-                <Link href={`/startupDetail/${(_id)}`}>
+                <Link href={`/startupDetail/${_id}?mode=view`}>
                  <span className="text-24-black">{title}</span>
                 </Link>
             </div>

@@ -1,6 +1,7 @@
 export type querySearchParamsType = Promise<{query?: string}>
 export type queryStartupDetailType = Promise<{_id: string}>
 export type queryUserProfileType = Promise<{_id: string}>
+export type modeSearchParamsType = Promise<{mode: string}>
 export type startupInfoType = {
     _id: string,
     slug: slugType, 
@@ -23,4 +24,13 @@ export type authorType = {
 
 export type slugType = {
     current: string,
+}
+
+export type prevStartupInfoType = {
+    startupId: string,
+    title: string,
+    img: string,
+    desc: string,
+    category: string,
+    pitch: string
 }
