@@ -53,7 +53,9 @@ const startupDetail = async ({params, searchParams}: {params: queryStartupDetail
         if(mode === "edit" && user_id !== authorId){
             redirect(`./${startupId}?mode=view`)
         }
-        isAuthor = true
+        if(user_id === authorId){
+            isAuthor = true
+        }
     }
     
     const md = markdownit()
